@@ -14,18 +14,14 @@ public class Main {
 	/*first creates a new linked list with <Request> data type
 	 * and then the list called queue is a synchronized list that holds the
 	 * linked list within that in order to prevent concurrency errors */
-	List<Request> ll = new LinkedList<Request>();
-	List<Request> queue = Collections.synchronizedList(ll);
+	static List<Request> ll = new LinkedList<Request>();
+	static List<Request> queue = Collections.synchronizedList(ll);
 
 	public static void main(String[] args) throws InterruptedException {
 		getInput();
 		//slave threads to go to their own function or class and check queue for work 
-		getToWork();
 		generateRequests();
 		
-		/*
-		 *1. Make a function that randomly generates requests and adds it to an object array
-		 *2. Finding how to use threads in java, and creating slave threads */
 		
 		System.out.println(M + N);
 	
@@ -36,21 +32,37 @@ public class Main {
 	
 		int jobLength;
 		int jobID = 0;
+		boolean status; 
 		do {
 			jobID++;
 			jobLength = new Random().nextInt((M+1) - 1) + 1; //random number with M > value > 1 
 			Request request = new Request(jobID, jobLength);
 			request.info();
-			
+			status = checkQueue();
+			if (status ==true) {
+				add(request);
+				}
+			else {
+				waitRand();
+			} 
 			Thread.sleep(jobLength * 1000); //puts the master to sleep after checking queue
 		}
 		while(true);
 		
 	}
-	public boolean checkQueue () {
+//this function will cause main to sleep, check queue again, then add the request and then sleep again
+	private static void waitRand() {
+		// TODO Auto-generated method stub
 		
-		return false;
-		
+	}
+
+	private static Object add(Request r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static boolean checkQueue () {
+		return queue.size() <= N? true : false;
 	}
 
 	//This function is called first from main to retrieve M and N, and performs some basic data validation 
