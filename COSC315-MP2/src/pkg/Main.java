@@ -1,6 +1,9 @@
 package pkg;
 
 import java.util.Scanner;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.lang.*;
 
@@ -8,9 +11,16 @@ import java.lang.*;
 public class Main {
 	static int N;
 	static int M;
+	/*first creates a new linked list with <Request> data type
+	 * and then the list called queue is a synchronized list that holds the
+	 * linked list within that in order to prevent concurrency errors */
+	List<Request> ll = new LinkedList<Request>();
+	List<Request> queue = Collections.synchronizedList(ll);
 
 	public static void main(String[] args) throws InterruptedException {
 		getInput();
+		//slave threads to go to their own function or class and check queue for work 
+		getToWork();
 		generateRequests();
 		
 		/*
@@ -31,12 +41,17 @@ public class Main {
 			jobLength = new Random().nextInt((M+1) - 1) + 1; //random number with M > value > 1 
 			Request request = new Request(jobID, jobLength);
 			request.info();
-			Thread.sleep(jobLength * 1000);
+			
+			Thread.sleep(jobLength * 1000); //puts the master to sleep after checking queue
 		}
 		while(true);
 		
 	}
-
+	public boolean checkQueue () {
+		
+		return false;
+		
+	}
 
 	//This function is called first from main to retrieve M and N, and performs some basic data validation 
 	//Will prompt repeatedly if M or N inputed is less then 0 
