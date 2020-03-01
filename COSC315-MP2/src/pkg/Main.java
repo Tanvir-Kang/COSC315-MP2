@@ -43,7 +43,7 @@ public class Main {
 				add(request);
 				}
 			else {
-				waitRand();
+				waitRand(request);
 			} 
 			Thread.sleep(jobLength * 1000); //puts the master to sleep after checking queue
 		}
@@ -51,18 +51,22 @@ public class Main {
 		
 	}
 //this function will cause main to sleep, check queue again, then add the request and then sleep again
-	private static void waitRand() {
-		// TODO Auto-generated method stub
+	private static void waitRand(Request r) throws InterruptedException {
+		//it will keep on sleeping for random times until the queue is finally free
+		do {
+			int randomTime = new Random().nextInt((M+1) - 1) + 1; 
+			Thread.sleep(randomTime*1000);	
+		}
+		while (checkQueue()==false);
+		
 		
 	}
 
-	private static Object add(Request r) {
-		// TODO Auto-generated method stub
-		return null;
+	private static void add(Request r) {
 	}
 
 	public static boolean checkQueue () {
-		return queue.size() <= N? true : false;
+		return queue.size() < N? true : false;
 	}
 
 	//This function is called first from main to retrieve M and N, and performs some basic data validation 
