@@ -46,7 +46,7 @@ public class Main {
 		}
 		threads = new Thread[N];
 		for(int i=0; i <N; i++) {
-			threads[i] = new Thread(slaves[i],"slave");
+			threads[i] = new Thread(slaves[i]);
 		}
 		return;
 	}
@@ -61,7 +61,7 @@ public class Main {
 	
 		int jobLength;
 		int jobID = 0;
-		//startSlaves();
+		startSlaves();
 		do {
 			jobID++;
 			jobLength = new Random().nextInt((M+1) - 1) + 1; //random number with 1 < value < M 
@@ -79,7 +79,7 @@ public class Main {
 		while(true);
 		
 	}
-	private static void startSlaves() {
+	private static void startSlaves() throws InterruptedException {
 		for (int i=0; i< N; i++) {
 			threads[i].start();
 		}
@@ -129,5 +129,8 @@ public class Main {
 		while(M < 0);
 		
 		}
+	public int getN() {
+		return this.N;
+	}
 
 }
