@@ -58,11 +58,14 @@ public class Main {
 			Thread.sleep(randomTime*1000);	
 		}
 		while (checkQueue()==false);
-		
+		add(r);
 		
 	}
 
 	private static void add(Request r) {
+		//have to secure this with monitors still but:
+		queue.add(r);
+		return;
 	}
 
 	public static boolean checkQueue () {
