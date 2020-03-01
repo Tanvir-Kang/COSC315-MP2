@@ -3,26 +3,35 @@ package pkg;
 import java.util.Scanner;
 
 public class Main {
+	static int N;
+	static int M;
 
 	public static void main(String[] args) {
-		Request r1 = new Request(1,5);
-		r1.info();
 		getInput();
+		System.out.println(M + N);
 	
 	}
 	
+	
+	//This function is called first from main to retrieve M and N, and performs some basic data validation 
+	//Will prompt repeatedly if M or N inputed is less then 0 
 	public static void getInput() {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Info: \nN = The number of slave threads and size of input buffer (INT). M = Max seconds of any one request can take(N)");
+		System.out.println("Info: \nN = The number of slave threads and size of input buffer (POSITIVE INT). M = Max seconds of any one request can take (POSITIVE INT)");
 		
-		while(true) {
+		do {
+			System.out.println("Please enter N");
+			N = in.nextInt();
 			
 		}
-		System.out.println("Please enter N: followed by enter");
-		int N = in.nextInt();
-
-		System.out.println("Please enter M: followed by enter");
-		int M = in.nextInt();
-	}
+		while (N < 0);
+		
+		do {
+		System.out.println("Please enter M");
+		M = in.nextInt();
+			}
+		while(M < 0);
+		
+		}
 
 }
