@@ -21,7 +21,7 @@ public class Request {
 
 	public void info() {
 		System.out.println("ID: "+getId());
-		System.out.println("Request Length: "+getLengthReq());
+		System.out.println("Request Length: "+getLengthReq() + "\n");
 	}
 	
 	public Request(int i, int j) {
