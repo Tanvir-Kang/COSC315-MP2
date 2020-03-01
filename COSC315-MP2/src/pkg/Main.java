@@ -22,12 +22,14 @@ public class Main {
 		//slave threads to go to their own function or class and check queue for work 
 		generateRequests();
 		
-		
-		System.out.println(M + N);
-	
 	}
 	
-	//This is the "Master Thread" generating Requests 
+	/*
+	 * This is the "Master Thread" generating Requests 
+	 * called from main, it runs  do..while(true) structure
+	 * it creates a request, checks the queue, then decides what function to call
+	 *  
+	 * */
 	private static void generateRequests() throws InterruptedException  {
 	
 		int jobLength;
@@ -43,7 +45,7 @@ public class Main {
 				add(request);
 				}
 			else {
-				waitRand(request);
+				wait(request);
 			} 
 			Thread.sleep(jobLength * 1000); //puts the master to sleep after checking queue
 		}
@@ -51,19 +53,18 @@ public class Main {
 		
 	}
 //this function will cause main to sleep, check queue again, then add the request and then sleep again
-	private static void waitRand(Request r) throws InterruptedException {
-		//it will keep on sleeping for random times until the queue is finally free
+	private static void wait(Request r) throws InterruptedException {
+//it will keep on sleeping for 0.5 seconds until the queue is finally free
 		do {
-			int randomTime = new Random().nextInt((M+1) - 1) + 1; 
-			Thread.sleep(randomTime*1000);	
+			Thread.sleep(500);
 		}
-		while (checkQueue()==false);
-		add(r);
+		while (checkQueue()==false);//do this while queue is still full
+		add(r);//if condition is false then go to add the request to queue
 		
 	}
 
 	private static void add(Request r) {
-		//have to secure this with monitors still but:
+//have to secure this with monitors still but:
 		queue.add(r);
 		return;
 	}
@@ -72,8 +73,8 @@ public class Main {
 		return queue.size() < N? true : false;
 	}
 
-	//This function is called first from main to retrieve M and N, and performs some basic data validation 
-	//Will prompt repeatedly if M or N inputed is less then 0 
+//This function is called first from main to retrieve M and N, and performs some basic data validation 
+//Will prompt repeatedly if M or N inputed is less then 0 
 	public static void getInput() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Info: \nN = The number of slave threads and size of input buffer (POSITIVE INT). M = Max seconds of any one request can take (POSITIVE INT)");
