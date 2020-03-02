@@ -24,7 +24,7 @@ public class Main {
 	 * */
 	static SlaveThread[] slaves;
 	static Thread[] threads;
-
+	 public static Object lock1 = new Object();
 	public static void main(String[] args) throws InterruptedException {
 		getInput();//prompts for input
 		createSlaves();//starts all slaves and returns back 
@@ -74,7 +74,7 @@ public class Main {
 			wait(request);
 		
 			
-			Thread.sleep(1000); //puts the master to sleep after checking queue
+			Thread.sleep((new Random().nextInt((4+1) - 1) + 1)*1000); //puts the master to sleep after checking queue
 		}
 		while(true);
 		
@@ -98,14 +98,13 @@ public class Main {
 		
 	}
 
-	private static void add(Request r) {
-//have to secure this with monitors still but:
+	synchronized private static void add(Request r) {
+			queue.add(r);
 		System.out.println(Thread.currentThread().getName()+"(Master) has added ID: " + r.getId());
-		queue.add(r);
 		return;
 	}
 
-	public static boolean checkQueue () {
+	synchronized public static boolean checkQueue () {
 		return queue.size() < N? true : false;
 	}
 

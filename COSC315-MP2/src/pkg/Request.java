@@ -28,4 +28,8 @@ public class Request {
 		id = i;
 		lengthReq = j;
 	}
+
+	public Request() {
+		// TODO Auto-generated constructor stub
+	}
 }
